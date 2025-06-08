@@ -68,27 +68,43 @@ class AgenticRAGEngine:
     
     async def initialize(self):
         """Inicializar conexiones a bases de datos vectoriales"""
-        try:
-            if VECTOR_DB_TYPE == "chroma":
-                self.vector_db = chromadb.HttpClient(
-                    host=CHROMA_HOST,
-                    port=CHROMA_PORT,
-                    settings=Settings(allow_reset=True)
-                )
-                # Crear o obtener colección
-                try:
-                    self.collection = self.vector_db.get_collection("rag_documents")
-                except:
-                    self.collection = self.vector_db.create_collection(
-                        "rag_documents",
-                        metadata={"hnsw:space": "cosine"}
+        max_retries = 5
+        retry_delay = 5  # segundos
+        
+        for attempt in range(max_retries):
+            try:
+                if VECTOR_DB_TYPE == "chroma":
+                    logger.info(f"Intentando conectar a ChromaDB en {CHROMA_HOST}:{CHROMA_PORT} (intento {attempt + 1}/{max_retries})")
+                    self.vector_db = chromadb.HttpClient(
+                        host=CHROMA_HOST,
+                        port=CHROMA_PORT,
+                        settings=Settings(
+                            allow_reset=True,
+                            anonymized_telemetry=False
+                        )
                     )
-            
-            logger.info(f"Vector DB inicializada: {VECTOR_DB_TYPE}")
-            
-        except Exception as e:
-            logger.error(f"Error inicializando vector DB: {e}")
-            raise
+                    # Crear o obtener colección
+                    try:
+                        self.collection = self.vector_db.get_collection("rag_documents")
+                        logger.info("Colección 'rag_documents' recuperada exitosamente")
+                    except Exception as e:
+                        logger.info(f"Creando nueva colección 'rag_documents': {e}")
+                        self.collection = self.vector_db.create_collection(
+                            "rag_documents",
+                            metadata={"hnsw:space": "cosine"}
+                        )
+                        logger.info("Colección 'rag_documents' creada exitosamente")
+                
+                logger.info(f"Vector DB inicializada exitosamente: {VECTOR_DB_TYPE}")
+                return
+                
+            except Exception as e:
+                logger.error(f"Error inicializando vector DB (intento {attempt + 1}/{max_retries}): {e}")
+                if attempt < max_retries - 1:
+                    logger.info(f"Reintentando en {retry_delay} segundos...")
+                    await asyncio.sleep(retry_delay)
+                else:
+                    raise Exception(f"No se pudo conectar a ChromaDB después de {max_retries} intentos")
     
     def _embed_text(self, text: str) -> List[float]:
         """Generar embeddings para texto"""

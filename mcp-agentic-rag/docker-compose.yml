@@ -12,9 +12,9 @@ services:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - PINECONE_API_KEY=${PINECONE_API_KEY}
       - PINECONE_ENVIRONMENT=${PINECONE_ENVIRONMENT}
-      - VECTOR_DB_TYPE=chroma  # o 'pinecone' para usar Pinecone
+      - VECTOR_DB_TYPE=chroma
       - CHROMA_HOST=chromadb
-      - CHROMA_PORT=8001
+      - CHROMA_PORT=8000
     volumes:
       - ./data:/app/data
       - ./knowledge_base:/app/knowledge_base
@@ -31,6 +31,7 @@ services:
     environment:
       - IS_PERSISTENT=TRUE
       - PERSIST_DIRECTORY=/chroma/chroma
+      - ALLOW_RESET=true
     volumes:
       - chromadb_data:/chroma/chroma
     networks:
