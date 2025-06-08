@@ -37,7 +37,7 @@ class MCPClient:
                     "OPENAI_API_KEY": os.getenv("OPENAI_API_KEY", ""),
                     "VECTOR_DB_TYPE": "chroma",
                     "CHROMA_HOST": "chromadb",
-                    "CHROMA_PORT": "8001"
+                    "CHROMA_PORT": "8000"
                 }
             )
             

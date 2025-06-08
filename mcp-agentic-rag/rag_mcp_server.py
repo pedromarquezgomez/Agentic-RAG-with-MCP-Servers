@@ -494,19 +494,19 @@ app = FastAPI(title="Agentic RAG MCP Server", version="1.0.0")
 async def startup_event():
     """Inicializar al arrancar"""
     await rag_engine.initialize()
-    
+
     # Cargar documentos de ejemplo si existen
-    knowledge_dir = Path("/app/knowledge_base")
-    if knowledge_dir.exists():
-        for file_path in knowledge_dir.glob("*.txt"):
-            try:
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    content = f.read()
-                    metadata = {"source": file_path.name, "type": "text"}
-                    await rag_engine.add_document(content, metadata, file_path.stem)
-                logger.info(f"Documento cargado: {file_path.name}")
-            except Exception as e:
-                logger.error(f"Error cargando {file_path}: {e}")
+    # knowledge_dir = Path("/app/knowledge_base")
+    # if knowledge_dir.exists():
+    #     for file_path in knowledge_dir.glob("*.txt"):
+    #         try:
+    #             with open(file_path, 'r', encoding='utf-8') as f:
+    #                 content = f.read()
+    #                 metadata = {"source": file_path.name, "type": "text"}
+    #                 await rag_engine.add_document(content, metadata, file_path.stem)
+    #             logger.info(f"Documento cargado: {file_path.name}")
+    #         except Exception as e:
+    #             logger.error(f"Error cargando {file_path}: {e}")
 
 @app.get("/health")
 async def health_check():
