@@ -1,0 +1,18 @@
+Los sistemas RAG agénticos pueden incluir diferentes tipos de agentes:
+
+**Agentes de Enrutamiento**: Funcionan como directores de tráfico en el ecosistema RAG. 
+Analizan las consultas de los usuarios entrantes y determinan qué fuentes de conocimiento 
+o herramientas serían más apropiadas.
+
+**Agentes de Planificación de Consultas**: Actúan como gerentes de proyecto, descomponen 
+consultas complejas en subtareas manejables, delegan estas subtareas a agentes apropiados 
+dentro del sistema y compilan las diversas respuestas en una respuesta final cohesiva.
+
+**Agentes ReAct**: Crean e implementan soluciones paso a paso desarrollando rutas de 
+solución lógicas, identificando herramientas útiles para cada paso y modificando 
+adaptativamente los pasos subsiguientes basándose en resultados intermedios.
+
+**Agentes de Planificación y Ejecución**: Representan una evolución más allá de los 
+agentes ReAct, con capacidades para ejecutar flujos de trabajo completos de forma 
+independiente sin supervisión constante, reducir costos operativos a través de mayor 
+autonomía y lograr tasas de finalización y calidad más altas.

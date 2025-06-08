@@ -1,0 +1,14 @@
+La Generación Aumentada por Recuperación (RAG) combina un modelo de lenguaje con 
+recuperación de conocimiento externo, de modo que las respuestas del modelo se basan 
+en hechos actualizados en lugar de solo en sus datos de entrenamiento.
+
+En un pipeline RAG, una consulta del usuario se utiliza para buscar en una base de 
+conocimiento (a menudo mediante embeddings en una base de datos vectorial) y los 
+documentos más relevantes se "aumentan" en el prompt del modelo para ayudar a 
+generar una respuesta factual.
+
+Los sistemas RAG agénticos van más allá del RAG tradicional al introducir un agente 
+de IA en el bucle RAG. En un sistema RAG agéntico, los componentes de recuperación 
+y generación son orquestados por un agente inteligente que puede planificar consultas 
+de múltiples pasos, usar varias herramientas y adaptar su estrategia basándose en 
+la consulta y los resultados intermedios.
